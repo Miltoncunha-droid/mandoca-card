@@ -363,7 +363,7 @@ hr.div{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <body>
 <div class="app">
 
-  <div class="overlay" id="overlay"></div>
+  <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
 
   <!-- ══ SIDEBAR / DRAWER ══ -->
 
@@ -373,19 +373,19 @@ hr.div{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <p>controle de cartão de crédito</p>
     </div>
     <nav class="sidebar-nav">
-      <button class="nav-item active" id="ni-dashboard" data-page="ni-dashboard">
+      <button class="nav-item active" id="ni-dashboard" onclick="goPage('dashboard')">
         <span class="ni-icon">📊</span> Dashboard
       </button>
-      <button class="nav-item" id="ni-lancamentos" data-page="ni-lancamentos">
+      <button class="nav-item" id="ni-lancamentos" onclick="goPage('lancamentos')">
         <span class="ni-icon">➕</span> Lançamentos
       </button>
-      <button class="nav-item" id="ni-debitos" data-page="ni-debitos">
+      <button class="nav-item" id="ni-debitos" onclick="goPage('debitos')">
         <span class="ni-icon">💰</span> Débitos
       </button>
-      <button class="nav-item" id="ni-cartoes" data-page="ni-cartoes">
+      <button class="nav-item" id="ni-cartoes" onclick="goPage('cartoes')">
         <span class="ni-icon">💳</span> Cartões
       </button>
-      <button class="nav-item" id="ni-pessoas" data-page="ni-pessoas">
+      <button class="nav-item" id="ni-pessoas" onclick="goPage('pessoas')">
         <span class="ni-icon">👤</span> Pessoas
       </button>
     </nav>
@@ -393,9 +393,9 @@ hr.div{border:none;border-top:1px solid var(--border);margin:16px 0;}
       <div class="month-widget">
         <div class="month-widget-label">Mês visualizado</div>
         <div class="month-widget-controls">
-          <button class="month-btn" data-month="-1">‹</button>
+          <button class="month-btn" data-month="-1" onclick="changeMonth(-1)">‹</button>
           <div class="month-label" id="monthLabel">—</div>
-          <button class="month-btn" data-month="1">›</button>
+          <button class="month-btn" data-month="1" onclick="changeMonth(1)">›</button>
         </div>
       </div>
     </div>
@@ -410,10 +410,10 @@ hr.div{border:none;border-top:1px solid var(--border);margin:16px 0;}
 <header class="topbar">
   <div class="topbar-logo"><span style="filter:sepia(1) saturate(5) hue-rotate(240deg) brightness(0.7)">💳</span> Mandoca <span>Card</span></div>
   <div class="topbar-right">
-    <button class="month-btn" data-month="-1" style="width:30px;height:30px;">‹</button>
+    <button class="month-btn" data-month="-1" onclick="changeMonth(-1)" style="width:30px;height:30px;">‹</button>
     <div class="topbar-month" id="topbarMonth">—</div>
-    <button class="month-btn" data-month="1" style="width:30px;height:30px;">›</button>
-    <button class="hamburger" id="btnHamburger" type="button">☰</button>
+    <button class="month-btn" data-month="1" onclick="changeMonth(1)" style="width:30px;height:30px;">›</button>
+    <button class="hamburger" id="btnHamburger" type="button" onclick="openDrawer()">☰</button>
   </div>
 </header>
 
