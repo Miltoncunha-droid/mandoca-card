@@ -5,7 +5,10 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
 <title>Mandoca Card</title>
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <style>
 :root {
   --bg:      #f5f4f0;
@@ -36,7 +39,7 @@
 html{scroll-behavior:smooth;}
 body{
   background:var(--bg);color:var(--text);
-  font-family:'Plus Jakarta Sans',sans-serif;
+  font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
   min-height:100vh;overflow-x:hidden;
   padding-bottom:env(safe-area-inset-bottom);
 }
@@ -67,7 +70,7 @@ box-shadow:4px 0 28px rgba(0,0,0,.18);
 }
 .sidebar-logo{padding:24px 20px 18px;border-bottom:1px solid var(–border);}
 .sidebar-logo h1{
-font-family:‘Playfair Display’,serif;font-weight:900;font-size:1.18rem;
+font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-weight:900;font-size:1.18rem;
 color:var(–nubank);letter-spacing:-.3px;line-height:1.2;
 }
 .sidebar-logo h1 span{color:var(–text);font-weight:700;}
@@ -76,7 +79,7 @@ color:var(–nubank);letter-spacing:-.3px;line-height:1.2;
 .nav-item{
 display:flex;align-items:center;gap:11px;
 padding:11px 12px;border-radius:10px;border:none;background:transparent;
-color:var(–muted2);font-family:‘Plus Jakarta Sans’,sans-serif;
+color:var(–muted2);font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;
 font-size:.83rem;font-weight:600;cursor:pointer;transition:all .18s;
 text-align:left;width:100%;
 }
@@ -115,7 +118,7 @@ padding:0 20px;height:56px;
 align-items:center;justify-content:space-between;
 box-shadow:var(–shadow);
 }
-.topbar-logo{font-family:‘Playfair Display’,serif;font-weight:900;font-size:1.05rem;color:var(–nubank);letter-spacing:-.2px;}
+.topbar-logo{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-weight:900;font-size:1.05rem;color:var(–nubank);letter-spacing:-.2px;}
 .topbar-logo span{color:var(–text);}
 .topbar-right{display:flex;align-items:center;gap:10px;}
 .topbar-month{font-size:.72rem;font-weight:700;color:var(–muted2);background:var(–bg2);border-radius:6px;padding:4px 10px;}
@@ -148,7 +151,7 @@ transition:opacity .3s;
 .metric.m-blue::before{background:var(–a3);}
 .metric.m-purple::before{background:var(–a4);}
 .metric-label{font-size:.67rem;color:var(–muted);font-weight:600;letter-spacing:.8px;text-transform:uppercase;margin-bottom:9px;}
-.metric-val{font-family:‘Playfair Display’,serif;font-size:1.6rem;font-weight:700;color:var(–text);}
+.metric-val{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.6rem;font-weight:700;color:var(–text);}
 .metric-sub{font-size:.67rem;color:var(–muted);margin-top:4px;}
 
 /* ══ SECTION ══ */
@@ -165,7 +168,7 @@ transition:opacity .3s;
 .field label{font-size:.67rem;font-weight:700;letter-spacing:.5px;text-transform:uppercase;color:var(–muted2);}
 .field input,.field select{
 background:var(–bg);border:1.5px solid var(–border);border-radius:9px;padding:10px 14px;
-color:var(–text);font-family:‘Plus Jakarta Sans’,sans-serif;font-size:.87rem;outline:none;
+color:var(–text);font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;font-size:.87rem;outline:none;
 transition:border-color .2s,background .2s;-webkit-appearance:none;appearance:none;
 }
 .field input:focus,.field select:focus{border-color:var(–a1);background:var(–white);}
@@ -175,7 +178,7 @@ transition:border-color .2s,background .2s;-webkit-appearance:none;appearance:no
 
 /* chips */
 .person-row{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:16px;}
-.p-chip{padding:7px 15px;border-radius:99px;border:1.5px solid var(–border2);background:var(–white);color:var(–muted2);font-family:‘Plus Jakarta Sans’,sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.p-chip{padding:7px 15px;border-radius:99px;border:1.5px solid var(–border2);background:var(–white);color:var(–muted2);font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;font-size:.8rem;font-weight:600;cursor:pointer;transition:all .2s;}
 .p-chip.sel,.p-chip:hover{background:var(–a1);border-color:var(–a1);color:#fff;}
 
 /* toggle */
@@ -189,11 +192,11 @@ transition:border-color .2s,background .2s;-webkit-appearance:none;appearance:no
 .toggle input:checked+.slider:before{transform:translateX(18px);}
 
 /* buttons */
-.btn-primary{background:var(–a1);border:none;border-radius:9px;padding:11px 24px;color:#fff;font-family:‘Plus Jakarta Sans’,sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 2px 8px rgba(212,99,10,.25);}
+.btn-primary{background:var(–a1);border:none;border-radius:9px;padding:11px 24px;color:#fff;font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;font-weight:700;font-size:.85rem;cursor:pointer;transition:all .2s;white-space:nowrap;box-shadow:0 2px 8px rgba(212,99,10,.25);}
 .btn-primary:hover{background:#b85208;transform:translateY(-1px);box-shadow:0 4px 12px rgba(212,99,10,.3);}
 .btn-primary.green{background:var(–a2);box-shadow:0 2px 8px rgba(44,110,73,.25);}
 .btn-primary.green:hover{background:#235c3c;}
-.btn-outline{background:var(–white);border:1.5px solid var(–border2);border-radius:9px;padding:9px 16px;color:var(–muted2);font-family:‘Plus Jakarta Sans’,sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:var(–shadow);}
+.btn-outline{background:var(–white);border:1.5px solid var(–border2);border-radius:9px;padding:9px 16px;color:var(–muted2);font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;font-size:.78rem;font-weight:600;cursor:pointer;transition:all .2s;box-shadow:var(–shadow);}
 .btn-outline:hover{border-color:var(–a1);color:var(–a1);}
 .btn-icon{background:var(–white);border:1.5px solid var(–border);border-radius:9px;width:38px;height:38px;color:var(–muted);cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:all .15s;box-shadow:var(–shadow);}
 .btn-icon:hover{border-color:var(–danger);color:var(–danger);background:var(–dangerl);}
@@ -205,8 +208,8 @@ transition:border-color .2s,background .2s;-webkit-appearance:none;appearance:no
 .persons-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:14px;margin-bottom:26px;}
 .person-card{background:var(–white);border:1.5px solid var(–border);border-radius:var(–r);padding:20px;cursor:pointer;transition:all .2s;box-shadow:var(–shadow);}
 .person-card:hover,.person-card.fil{border-color:var(–a1);box-shadow:0 4px 16px rgba(212,99,10,.12);}
-.pc-name{font-family:‘Playfair Display’,serif;font-size:1.05rem;font-weight:700;margin-bottom:8px;}
-.pc-month{font-family:‘Playfair Display’,serif;font-size:1.4rem;font-weight:700;}
+.pc-name{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.05rem;font-weight:700;margin-bottom:8px;}
+.pc-month{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.4rem;font-weight:700;}
 .pc-total{font-size:.7rem;color:var(–muted);margin-top:3px;}
 .pc-debt{font-size:.75rem;margin-top:8px;padding-top:8px;border-top:1px solid var(–border);}
 .bar-bg{height:4px;background:var(–bg2);border-radius:99px;margin-top:12px;overflow:hidden;}
@@ -214,7 +217,7 @@ transition:border-color .2s,background .2s;-webkit-appearance:none;appearance:no
 
 /* filter pills */
 .filter-row{display:flex;gap:8px;flex-wrap:wrap;}
-.fpill{padding:5px 14px;border-radius:99px;border:1.5px solid var(–border);background:var(–white);color:var(–muted);font-family:‘Plus Jakarta Sans’,sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.fpill{padding:5px 14px;border-radius:99px;border:1.5px solid var(–border);background:var(–white);color:var(–muted);font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s;}
 .fpill.on,.fpill:hover{border-color:var(–a1);color:var(–a1);background:var(–a1l);}
 
 /* expense rows */
@@ -228,18 +231,18 @@ transition:border-color .2s,background .2s;-webkit-appearance:none;appearance:no
 .exp-card-tag{font-size:.64rem;padding:3px 9px;border-radius:6px;background:var(–bg2);border:1px solid var(–border);color:var(–muted2);white-space:nowrap;font-weight:500;}
 .exp-person-tag{font-size:.64rem;padding:3px 9px;border-radius:6px;background:var(–bg2);border:1px solid var(–border);white-space:nowrap;font-weight:600;}
 .exp-inst{font-size:.64rem;color:var(–muted);white-space:nowrap;}
-.exp-amount{font-family:‘Playfair Display’,serif;font-size:1rem;font-weight:700;text-align:right;white-space:nowrap;min-width:90px;}
+.exp-amount{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1rem;font-weight:700;text-align:right;white-space:nowrap;min-width:90px;}
 
 /* credit cards */
 .cards-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:16px;margin-bottom:26px;}
 .cc-card{border-radius:16px;padding:22px;position:relative;overflow:hidden;min-height:155px;display:flex;flex-direction:column;justify-content:space-between;transition:transform .2s,box-shadow .2s;box-shadow:var(–shadow2);}
 .cc-card:hover{transform:translateY(-3px);box-shadow:0 8px 28px rgba(0,0,0,.18);}
 .cc-card-shine{position:absolute;top:-30%;left:-20%;width:160%;height:160%;background:radial-gradient(ellipse at 30% 30%,rgba(255,255,255,.12),transparent 70%);pointer-events:none;}
-.cc-card-brand{font-family:‘Playfair Display’,serif;font-size:1.15rem;font-weight:700;}
+.cc-card-brand{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.15rem;font-weight:700;}
 .cc-card-info{font-size:.63rem;opacity:.6;margin-top:3px;}
 .cc-card-dates{display:flex;gap:20px;margin-top:auto;}
 .cc-date-block .lbl{font-size:.53rem;letter-spacing:2px;text-transform:uppercase;opacity:.55;margin-bottom:2px;}
-.cc-date-block .val{font-family:‘Playfair Display’,serif;font-size:1.05rem;font-weight:700;}
+.cc-date-block .val{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.05rem;font-weight:700;}
 .cc-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px;}
 .cc-card .btn-icon{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.3);color:rgba(255,255,255,.8);}
 .cc-card .btn-icon:hover{background:rgba(255,255,255,.25);border-color:rgba(255,255,255,.6);color:#fff;}
@@ -252,8 +255,8 @@ transition:border-color .2s,background .2s;-webkit-appearance:none;appearance:no
 /* total bar */
 .total-bar{margin-top:18px;background:var(–white);border:1px solid var(–border);border-radius:var(–r);padding:16px 22px;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px;box-shadow:var(–shadow);}
 .total-bar .lbl{font-size:.63rem;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(–muted);margin-bottom:4px;}
-.total-bar .val{font-family:‘Playfair Display’,serif;font-size:1.55rem;font-weight:700;color:var(–a1);}
-.btn-danger{background:var(–white);border:1.5px solid var(–danger);border-radius:8px;padding:8px 14px;color:var(–danger);font-family:‘Plus Jakarta Sans’,sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;}
+.total-bar .val{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.55rem;font-weight:700;color:var(–a1);}
+.btn-danger{background:var(–white);border:1.5px solid var(–danger);border-radius:8px;padding:8px 14px;color:var(–danger);font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;font-size:.74rem;font-weight:600;cursor:pointer;transition:all .2s;}
 .btn-danger:hover{background:var(–dangerl);}
 
 /* person mgmt */
@@ -276,7 +279,7 @@ transition:all .2s;
 }
 .person-reg-card:hover{border-color:var(–border2);box-shadow:var(–shadow2);}
 .prc-avatar{font-size:2rem;margin-bottom:8px;line-height:1;}
-.prc-name{font-family:‘Playfair Display’,serif;font-size:1.05rem;font-weight:700;}
+.prc-name{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.05rem;font-weight:700;}
 .prc-meta{font-size:.68rem;color:var(–muted);margin-top:4px;}
 .prc-actions{position:absolute;top:12px;right:12px;display:flex;gap:6px;}
 /* person-mgmt kept for compat */
@@ -288,13 +291,13 @@ transition:all .2s;
 
 /* debt */
 .debt-section{margin-bottom:30px;}
-.sub-title{font-family:‘Playfair Display’,serif;font-size:1.05rem;font-weight:700;color:var(–text);margin-bottom:13px;}
+.sub-title{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1.05rem;font-weight:700;color:var(–text);margin-bottom:13px;}
 .debt-row{background:var(–white);border:1px solid var(–border);border-radius:10px;margin-bottom:6px;display:grid;grid-template-columns:1fr auto auto auto;gap:14px;padding:12px 16px;align-items:center;box-shadow:var(–shadow);}
 .debt-row .dr-desc{font-size:.84rem;font-weight:500;}
 .debt-row .dr-meta{font-size:.63rem;color:var(–muted);margin-top:2px;}
 .debt-row .dr-month{font-size:.74rem;color:var(–muted2);text-align:right;}
 .debt-row .dr-parcel{font-size:.72rem;color:var(–a4);text-align:right;font-weight:600;}
-.debt-row .dr-total{font-family:‘Playfair Display’,serif;font-size:1rem;font-weight:700;text-align:right;}
+.debt-row .dr-total{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-size:1rem;font-weight:700;text-align:right;}
 
 /* colors */
 .c0{color:#d4630a;}.bg0{background:#d4630a;}
@@ -336,7 +339,7 @@ transition:all .2s;
 display:inline-flex;align-items:center;gap:6px;
 background:var(–white);border:1.5px solid var(–nubank);
 border-radius:8px;padding:6px 13px;color:var(–nubank);
-font-family:‘Plus Jakarta Sans’,sans-serif;font-size:.72rem;font-weight:700;
+font-family:‘Plus Jakarta Sans’,-apple-system,BlinkMacSystemFont,‘Segoe UI’,sans-serif;font-size:.72rem;font-weight:700;
 cursor:pointer;transition:all .2s;margin-top:12px;width:100%;justify-content:center;
 }
 .btn-print:hover{background:var(–a4l);}
@@ -407,7 +410,9 @@ margin: 0 !important;
 <header class="topbar">
   <div class="topbar-logo"><span style="filter:sepia(1) saturate(5) hue-rotate(240deg) brightness(0.7)">💳</span> Mandoca <span>Card</span></div>
   <div class="topbar-right">
+    <button class="month-btn" onclick="changeMonth(-1)" style="width:30px;height:30px;">‹</button>
     <div class="topbar-month" id="topbarMonth">—</div>
+    <button class="month-btn" onclick="changeMonth(1)" style="width:30px;height:30px;">›</button>
     <button class="hamburger" onclick="openDrawer()">☰</button>
   </div>
 </header>
@@ -673,11 +678,13 @@ function personFromDb(o){return{id:o.id,name:o.name,emoji:o.emoji||'👤',colorI
 async function loadFromDB(){
   showLoading(true);
   try{
-    const [p,e,ca] = await Promise.all([
+    // 8s timeout so the app never freezes if Supabase is slow
+    const withTimeout=(p,ms)=>Promise.race([p,new Promise((_,r)=>setTimeout(()=>r(new Error('timeout')),ms))]);
+    const [p,e,ca] = await withTimeout(Promise.all([
       sbFetch('mc_persons?order=created_at'),
       sbFetch('mc_expenses?order=created_at.desc'),
       sbFetch('mc_cards?order=created_at')
-    ]);
+    ]), 8000);
     if(p!==null)  persons  = p.map(personFromDb);
     if(e!==null)  expenses = e.map(expFromDb);
     if(ca!==null) cards    = ca.map(cardFromDb);
@@ -1352,7 +1359,7 @@ function printExtrato(personName){
     : '';
 
   const html = `
-    <div style="max-width:600px;margin:0 auto;padding:40px 32px;font-family:'Plus Jakarta Sans',sans-serif;color:#1a1714;">
+    <div style="max-width:600px;margin:0 auto;padding:40px 32px;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1714;">
       <!-- header -->
       <div style="display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:32px;padding-bottom:20px;border-bottom:2px solid ${color};">
         <div>
@@ -1414,7 +1421,7 @@ function printExtrato(personName){
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
 <style>
   *{margin:0;padding:0;box-sizing:border-box;}
-  body{background:#fff;font-family:'Plus Jakarta Sans',sans-serif;color:#1a1714;}
+  body{background:#fff;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;color:#1a1714;}
   @media print{
     body{-webkit-print-color-adjust:exact;print-color-adjust:exact;}
     .no-print{display:none!important;}
@@ -1422,7 +1429,7 @@ function printExtrato(personName){
   .btn-print-action{
     display:block;width:100%;padding:14px;margin-bottom:24px;
     background:#820ad1;color:#fff;border:none;border-radius:10px;
-    font-size:15px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',sans-serif;
+    font-size:15px;font-weight:700;cursor:pointer;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;
     letter-spacing:.3px;
   }
   .btn-print-action:hover{background:#6a09ab;}
@@ -1440,7 +1447,7 @@ function printExtrato(personName){
 <div id="installBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;
   background:#fff;border-top:2px solid #820ad1;padding:16px 20px 20px;
   padding-bottom:calc(20px + env(safe-area-inset-bottom));
-  box-shadow:0 -4px 24px rgba(0,0,0,0.12);font-family:'Plus Jakarta Sans',sans-serif;">
+  box-shadow:0 -4px 24px rgba(0,0,0,0.12);font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
   <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
     <div style="width:52px;height:52px;border-radius:12px;background:#820ad1;
       display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;">💳</div>
@@ -1545,14 +1552,14 @@ localStorage.setItem(‘mc_install_dismissed’,‘1’);
 
 <!-- PRINT AREA -->
 
-<div id="printArea" style="display:none;font-family:'Plus Jakarta Sans',sans-serif;background:#fff;color:#1a1714;"></div>
+<div id="printArea" style="display:none;font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:#fff;color:#1a1714;"></div>
 
 <!-- PWA Install Banner -->
 
 <div id="installBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;
   background:#fff;border-top:2px solid #820ad1;padding:16px 20px 20px;
   padding-bottom:calc(20px + env(safe-area-inset-bottom));
-  box-shadow:0 -4px 24px rgba(0,0,0,0.12);font-family:'Plus Jakarta Sans',sans-serif;">
+  box-shadow:0 -4px 24px rgba(0,0,0,0.12);font-family:'Plus Jakarta Sans',-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;">
   <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
     <div style="width:52px;height:52px;border-radius:12px;background:#820ad1;
       display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;">💳</div>
