@@ -753,6 +753,7 @@ clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove(‘show’),2800);
 
 // drawer
 function openDrawer(){
+dbg(‘openDrawer called’);
 document.getElementById(‘sidebar’).classList.add(‘open’);
 document.getElementById(‘overlay’).classList.add(‘open’);
 document.body.style.overflow=‘hidden’;
@@ -1253,8 +1254,10 @@ function render(){renderDashboard();renderLancamentos();renderDebitos();renderCa
 
 // ── INIT ──────────────────────────────────────────────
 function init(){
+dbg(‘init() started’);
 // ── Drawer ──
 var btnH = document.getElementById(‘btnHamburger’);
+dbg(’btnHamburger found: ’+(btnH?‘YES’:‘NO’));
 var ovl  = document.getElementById(‘overlay’);
 if(btnH) btnH.addEventListener(‘click’, function(){ openDrawer(); });
 if(ovl)  ovl.addEventListener(‘click’,  function(){ closeDrawer(); });
@@ -1272,8 +1275,10 @@ btn.addEventListener(‘click’, function(){ changeMonth(parseInt(btn.getAttrib
 });
 
 // ── Load data ──
+dbg(‘loadLocal + render starting’);
 loadLocal();
 render();
+dbg(‘render done, calling loadFromDB’);
 loadFromDB().then(function(){
 render();
 if(cards.length===0 && persons.length<=2){
@@ -1426,11 +1431,51 @@ win.document.write(`<!DOCTYPE html>
     <div>3. Toque em <strong style="color:#820ad1;">"Adicionar"</strong> no canto superior direito</div>
   </div>
 </div>
+
+<!-- DEBUG PANEL -->
+
+<div id="debugPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  background:#1a1714;color:#7cfc6e;font-family:monospace;font-size:11px;
+  padding:12px;max-height:40vh;overflow-y:auto;border-top:2px solid #7cfc6e;">
+  <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+    <span style="color:#fff;font-weight:bold;">🐛 Debug Console</span>
+    <button onclick="document.getElementById('debugPanel').style.display='none'"
+      style="background:transparent;border:1px solid #666;color:#fff;padding:2px 8px;cursor:pointer;font-size:11px;">✕ Fechar</button>
+  </div>
+  <div id="debugLog"></div>
+</div>
+<button id="debugToggle" onclick="document.getElementById('debugPanel').style.display='block'"
+  style="position:fixed;bottom:80px;right:16px;z-index:9998;
+  background:#1a1714;color:#7cfc6e;border:1px solid #7cfc6e;
+  border-radius:8px;padding:8px 12px;font-size:11px;font-family:monospace;cursor:pointer;">
+  🐛 Debug
+</button>
+
 </body>
 </html>`);
   win.document.close();
 }
 
 </script>
+
+<!-- DEBUG PANEL -->
+
+<div id="debugPanel" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:9999;
+  background:#1a1714;color:#7cfc6e;font-family:monospace;font-size:11px;
+  padding:12px;max-height:40vh;overflow-y:auto;border-top:2px solid #7cfc6e;">
+  <div style="display:flex;justify-content:space-between;margin-bottom:8px;">
+    <span style="color:#fff;font-weight:bold;">🐛 Debug Console</span>
+    <button onclick="document.getElementById('debugPanel').style.display='none'"
+      style="background:transparent;border:1px solid #666;color:#fff;padding:2px 8px;cursor:pointer;font-size:11px;">✕ Fechar</button>
+  </div>
+  <div id="debugLog"></div>
+</div>
+<button id="debugToggle" onclick="document.getElementById('debugPanel').style.display='block'"
+  style="position:fixed;bottom:80px;right:16px;z-index:9998;
+  background:#1a1714;color:#7cfc6e;border:1px solid #7cfc6e;
+  border-radius:8px;padding:8px 12px;font-size:11px;font-family:monospace;cursor:pointer;">
+  🐛 Debug
+</button>
+
 </body>
 </html>
