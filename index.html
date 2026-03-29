@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Mandoca Card</title>
+
+
+<link rel="stylesheet" href="app.css">
+</head>
+<body>
+<div class="app">
+
+  <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+
+  <!-- ══ SIDEBAR / DRAWER ══ -->
+  <aside class="sidebar" id="sidebar">
+    <div class="sidebar-logo">
+      <h1><span style="filter:sepia(1) saturate(5) hue-rotate(240deg) brightness(0.7)">💳</span> Mandoca <span>Card</span></h1>
+      <p>controle de cartão de crédito</p>
+    </div>
+    <nav class="sidebar-nav">
+      <button class="nav-item active" id="ni-dashboard" onclick="goPage('dashboard')">
+        <span class="ni-icon">📊</span> Dashboard
+      </button>
+      <button class="nav-item" id="ni-lancamentos" onclick="goPage('lancamentos')">
+        <span class="ni-icon">➕</span> Lançamentos
+      </button>
+      <button class="nav-item" id="ni-debitos" onclick="goPage('debitos')">
+        <span class="ni-icon">💰</span> Débitos
+      </button>
+      <button class="nav-item" id="ni-cartoes" onclick="goPage('cartoes')">
+        <span class="ni-icon">💳</span> Cartões
+      </button>
+      <button class="nav-item" id="ni-pessoas" onclick="goPage('pessoas')">
+        <span class="ni-icon">👤</span> Pessoas
+      </button>
+    </nav>
+    <div class="sidebar-footer">
+      <div class="month-widget">
+        <div class="month-widget-label">Mês visualizado</div>
+        <div class="month-widget-controls">
+          <button class="month-btn" data-month="-1" onclick="changeMonth(-1)">‹</button>
+          <div class="month-label" id="monthLabel">—</div>
+          <button class="month-btn" data-month="1" onclick="changeMonth(1)">›</button>
+        </div>
+      </div>
+    </div>
+  </aside>
+
+  <!-- ══ MAIN ══ -->
+  <div class="main">
+
+    <!-- topbar mobile -->
+    <header class="topbar">
+      <div class="topbar-logo"><span style="filter:sepia(1) saturate(5) hue-rotate(240deg) brightness(0.7)">💳</span> Mandoca <span>Card</span></div>
+      <div class="topbar-right">
+        <button class="month-btn" data-month="-1" onclick="changeMonth(-1)" style="width:30px;height:30px;">‹</button>
+        <div class="topbar-month" id="topbarMonth">—</div>
+        <button class="month-btn" data-month="1" onclick="changeMonth(1)" style="width:30px;height:30px;">›</button>
+        <button class="hamburger" id="btnHamburger" type="button" onclick="openDrawer()">☰</button>
+      </div>
+    </header>
+
+    <!-- DASHBOARD -->
+    <div class="page active" id="page-dashboard">
+      <div class="metrics" id="metricsArea"></div>
+      <div class="section-hd">
+        <div class="section-title">👥 Gasto por pessoa — mês vigente</div>
+        <button class="btn-outline" onclick="setFilter('all')">Ver todos</button>
+      </div>
+      <div class="persons-grid" id="personsGrid"></div>
+      <div class="section-hd">
+        <div class="section-title">📋 Lançamentos do mês</div>
+        <div class="filter-row" id="filterRow"></div>
+      </div>
+      <div class="exp-table" id="expTable"></div>
+      <div class="empty hidden" id="emptyExp">
+        <div class="ico">🧾</div>
+        <p>Nenhum gasto neste período.<br>Vá em <strong>Lançamentos</strong> para adicionar.</p>
+      </div>
+      <div class="total-bar">
+        <div><div class="lbl">Total filtrado do mês</div><div class="val" id="filteredMonthTotal">R$ 0,00</div></div>
+        <button class="btn-danger" onclick="clearMonth()">Limpar mês</button>
+      </div>
+    </div>
+
+    <!-- LANÇAMENTOS -->
+    <div class="page" id="page-lancamentos">
+      <div class="section-title" style="margin-bottom:16px">➕ Novo lançamento</div>
+      <div class="panel">
+        <div class="form-row cols-3">
+          <div class="field"><label>Descrição</label><input type="text" id="fDesc" placeholder="Ex: Netflix, Mercado, Farmácia..."></div>
+          <div class="field"><label>Valor total (R$)</label><input type="number" id="fAmount" min="0" step="0.01" placeholder="0,00" oninput="updateInstPreview()"></div>
+          <div class="field"><label>Categoria</label>
+            <select id="fCat">
+              <option value="Alimentação">🍔 Alimentação</option>
+              <option value="Mercado">🛒 Mercado</option>
+              <option value="Transporte">🚗 Transporte</option>
+              <option value="Saúde">💊 Saúde</option>
+              <option value="Lazer">🎭 Lazer</option>
+              <option value="Compras">🛍️ Compras</option>
+              <option value="Educação">📚 Educação</option>
+              <option value="Streaming">📺 Streaming</option>
+              <option value="Viagem">✈️ Viagem</option>
+              <option value="Serviços">🔧 Serviços</option>
+              <option value="Outro">📦 Outro</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="field"><label>Cartão</label><select id="fCard" onchange="updateInstPreview()"><option value="">— selecione um cartão —</option></select></div>
+          <div class="field"><label>Data da compra</label><input type="date" id="fDate" onchange="updateInstPreview()"></div>
+        </div>
+        <div class="toggle-row">
+          <label class="toggle"><input type="checkbox" id="fInstCheck" onchange="toggleInst()"><span class="slider"></span></label>
+          <span class="toggle-label">Compra parcelada</span>
+        </div>
+        <div id="instFields" class="hidden">
+          <div class="form-row cols-2" style="margin-bottom:12px">
+            <div class="field"><label>Número de parcelas</label><input type="number" id="fInstN" min="2" max="48" placeholder="Ex: 12" oninput="updateInstPreview()"></div>
+            <div class="field"><label>Valor por parcela</label><input type="text" id="fInstVal" readonly placeholder="calculado automaticamente"></div>
+          </div>
+          <div id="instPreview" class="inst-preview hidden"></div>
+        </div>
+        <hr class="div">
+        <div class="form-row cols-2">
+          <div class="field">
+            <label>Quem usou o cartão</label>
+            <select id="fPerson">
+              <option value="">— selecione a pessoa —</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-outline hidden" id="btnCancelEdit" onclick="cancelEditExpense()">Cancelar edição</button>
+          <button class="btn-primary" id="btnAddExpense" onclick="addExpense()">Registrar Gasto</button>
+        </div>
+      </div>
+      <div class="section-hd">
+        <div class="section-title">📋 Todos os lançamentos</div>
+        <div class="filter-row" id="filterRowAll"></div>
+      </div>
+      <div class="exp-table" id="expTableAll"></div>
+      <div class="empty hidden" id="emptyAll"><div class="ico">🧾</div><p>Nenhum lançamento ainda.</p></div>
+      <div class="total-bar" style="margin-top:16px">
+        <div><div class="lbl">Total geral</div><div class="val" id="grandTotal">R$ 0,00</div></div>
+        <button class="btn-danger" onclick="clearAll()">Limpar tudo</button>
+      </div>
+    </div>
+
+    <!-- DÉBITOS -->
+    <div class="page" id="page-debitos">
+      <div class="metrics" id="debtMetrics"></div>
+      <div id="debtContent"></div>
+    </div>
+
+    <!-- PESSOAS -->
+    <div class="page" id="page-pessoas">
+      <div class="section-title" style="margin-bottom:16px">➕ Cadastrar pessoa</div>
+      <div class="panel">
+        <div class="form-row cols-3">
+          <div class="field"><label>Nome</label><input type="text" id="ppName" placeholder="Ex: João, Maria..."></div>
+          <div class="field">
+            <label>Emoji / Avatar</label>
+            <select id="ppEmoji">
+              <option value="👤">👤 Padrão</option>
+              <option value="👨">👨 Homem</option>
+              <option value="👩">👩 Mulher</option>
+              <option value="👦">👦 Menino</option>
+              <option value="👧">👧 Menina</option>
+              <option value="👴">👴 Idoso</option>
+              <option value="👵">👵 Idosa</option>
+              <option value="🧑">🧑 Pessoa</option>
+              <option value="👶">👶 Bebê</option>
+              <option value="🐶">🐶 Pet</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Cor</label>
+            <select id="ppColor">
+              <option value="0">🟠 Laranja</option>
+              <option value="1">🟢 Verde</option>
+              <option value="2">🔵 Azul</option>
+              <option value="3">🟣 Roxo</option>
+              <option value="4">🔴 Vermelho</option>
+              <option value="5">🩵 Turquesa</option>
+              <option value="6">💙 Azul royal</option>
+              <option value="7">💜 Violeta</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary green" id="btnSavePerson" onclick="savePerson()">Salvar Pessoa</button>
+        </div>
+      </div>
+      <div class="section-title" style="margin-bottom:16px">👥 Pessoas cadastradas</div>
+      <div class="persons-register-grid" id="personsRegisterGrid"></div>
+      <div class="empty hidden" id="emptyPersons"><div class="ico">👤</div><p>Nenhuma pessoa cadastrada.<br>Adicione acima para começar.</p></div>
+    </div>
+
+    <!-- CARTÕES -->
+    <div class="page" id="page-cartoes">
+      <div class="section-title" style="margin-bottom:16px">➕ Cadastrar cartão</div>
+      <div class="panel">
+        <div class="form-row cols-3">
+          <div class="field"><label>Nome do cartão</label><input type="text" id="ccName" placeholder="Ex: Nubank, Itaú Gold..."></div>
+          <div class="field"><label>Bandeira</label>
+            <select id="ccBrand">
+              <option value="Visa">💳 Visa</option>
+              <option value="Mastercard">💳 Mastercard</option>
+              <option value="Elo">💳 Elo</option>
+              <option value="Amex">💳 American Express</option>
+              <option value="Hipercard">💳 Hipercard</option>
+              <option value="Outro">💳 Outro</option>
+            </select>
+          </div>
+          <div class="field"><label>Cor</label>
+            <select id="ccColor">
+              <option value="0">🔵 Azul noite</option>
+              <option value="1">🔴 Vermelho vinho</option>
+              <option value="2">🟢 Verde floresta</option>
+              <option value="3">🟡 Dourado escuro</option>
+              <option value="4">🟣 Roxo profundo</option>
+              <option value="5">🔷 Azul petróleo</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-row cols-2">
+          <div class="field"><label>Dia de fechamento</label><input type="number" id="ccClose" min="1" max="31" placeholder="Ex: 20"><div class="field-hint">Dia em que a fatura fecha</div></div>
+          <div class="field"><label>Dia de vencimento</label><input type="number" id="ccDue" min="1" max="31" placeholder="Ex: 5"><div class="field-hint">Dia em que a fatura vence (mês seguinte)</div></div>
+        </div>
+        <div class="form-actions">
+          <button class="btn-primary green" id="btnSaveCard" onclick="saveCard()">Salvar Cartão</button>
+        </div>
+      </div>
+      <div class="section-title" style="margin-bottom:16px">💳 Meus cartões</div>
+      <div class="cards-grid" id="cardsGrid"></div>
+      <div class="empty hidden" id="emptyCards"><div class="ico">💳</div><p>Nenhum cartão cadastrado.<br>Adicione acima para começar.</p></div>
+    </div>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+  </div></div>
+
+<script src="app.js"></script>
+</body>
+</html>
