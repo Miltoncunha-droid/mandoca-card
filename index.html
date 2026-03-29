@@ -1409,21 +1409,15 @@ win.document.write(`<!DOCTYPE html>
   ${html}
 </div>
 
-<!-- PWA Install Banner -->
+```
+<div>
+  <div style="font-weight:800;font-size:1rem;color:#1a1714;">Mandoca Card</div>
+  <div style="font-size:.78rem;color:#8a8278;margin-top:2px;">Instale como app no seu iPhone</div>
+</div>
+<button onclick="document.getElementById('installBanner').style.display='none'"
+  style="margin-left:auto;background:transparent;border:none;font-size:1.4rem;color:#8a8278;cursor:pointer;padding:4px;">✕</button>
+```
 
-<div id="installBanner" style="display:none;position:fixed;bottom:0;left:0;right:0;z-index:500;
-  background:#fff;border-top:2px solid #820ad1;padding:16px 20px 20px;
-  padding-bottom:calc(20px + env(safe-area-inset-bottom));
-  box-shadow:0 -4px 24px rgba(0,0,0,0.12);font-family:-apple-system,BlinkMacSystemFont,'SF Pro Text','Helvetica Neue',Arial,sans-serif;">
-  <div style="display:flex;align-items:center;gap:14px;margin-bottom:14px;">
-    <div style="width:52px;height:52px;border-radius:12px;background:#820ad1;
-      display:flex;align-items:center;justify-content:center;font-size:1.6rem;flex-shrink:0;">💳</div>
-    <div>
-      <div style="font-weight:800;font-size:1rem;color:#1a1714;">Mandoca Card</div>
-      <div style="font-size:.78rem;color:#8a8278;margin-top:2px;">Instale como app no seu iPhone</div>
-    </div>
-    <button onclick="document.getElementById('installBanner').style.display='none'"
-      style="margin-left:auto;background:transparent;border:none;font-size:1.4rem;color:#8a8278;cursor:pointer;padding:4px;">✕</button>
   </div>
   <div style="background:#f5f4f0;border-radius:10px;padding:14px 16px;font-size:.82rem;color:#6b6460;line-height:1.9;">
     <div style="font-weight:700;color:#1a1714;margin-bottom:8px;">📲 Como instalar:</div>
@@ -1436,85 +1430,6 @@ win.document.write(`<!DOCTYPE html>
 </html>`);
   win.document.close();
 }
-
-// ── PWA SETUP ─────────────────────────────────────────
-(function(){
-// Generate app icon via canvas
-function makeIcon(size){
-const cv = document.createElement(‘canvas’);
-cv.width = cv.height = size;
-const ctx = cv.getContext(‘2d’);
-// background
-const grad = ctx.createLinearGradient(0,0,size,size);
-grad.addColorStop(0,’#f0eaf8’);
-grad.addColorStop(1,’#e0d0f0’);
-ctx.fillStyle = grad;
-const r = size * 0.22;
-ctx.beginPath();
-ctx.moveTo(r,0);ctx.lineTo(size-r,0);ctx.quadraticCurveTo(size,0,size,r);
-ctx.lineTo(size,size-r);ctx.quadraticCurveTo(size,size,size-r,size);
-ctx.lineTo(r,size);ctx.quadraticCurveTo(0,size,0,size-r);
-ctx.lineTo(0,r);ctx.quadraticCurveTo(0,0,r,0);ctx.closePath();
-ctx.fill();
-// icon
-ctx.font = `bold ${size*0.52}px serif`;
-ctx.textAlign = ‘center’;
-ctx.textBaseline = ‘middle’;
-ctx.fillStyle = ‘#820ad1’;
-ctx.fillText(‘💳’, size/2, size/2);
-return cv.toDataURL(‘image/png’);
-}
-
-const icon192 = makeIcon(192);
-const icon512 = makeIcon(512);
-
-// Apple touch icon
-const appleIcon = document.getElementById(‘apple-icon’);
-if(appleIcon) appleIcon.href = icon192;
-
-// Inline manifest
-const manifest = {
-name: ‘Mandoca Card’,
-short_name: ‘Mandoca’,
-description: ‘Controle de gastos do cartão de crédito’,
-start_url: ‘.’,
-display: ‘standalone’,
-orientation: ‘portrait’,
-background_color: ‘#f5f4f0’,
-theme_color: ‘#820ad1’,
-icons: [
-{src: icon192, sizes: ‘192x192’, type: ‘image/png’, purpose: ‘any maskable’},
-{src: icon512, sizes: ‘512x512’, type: ‘image/png’, purpose: ‘any maskable’}
-]
-};
-const blob = new Blob([JSON.stringify(manifest)], {type:‘application/json’});
-const mUrl = URL.createObjectURL(blob);
-const mLink = document.getElementById(‘pwa-manifest’);
-if(mLink) mLink.href = mUrl;
-
-// Service Worker for offline
-if(‘serviceWorker’ in navigator){
-const swCode = ` const CACHE = 'mandoca-v1'; self.addEventListener('install', e=>{ e.waitUntil(caches.open(CACHE).then(c=>c.addAll([])).catch(()=>{})); self.skipWaiting(); }); self.addEventListener('activate', e=>{ e.waitUntil(caches.keys().then(ks=>Promise.all(ks.filter(k=>k!==CACHE).map(k=>caches.delete(k))))); self.clients.claim(); }); self.addEventListener('fetch', e=>{ e.respondWith(caches.match(e.request).then(r=>r||fetch(e.request).catch(()=>new Response('')))); });`;
-const swBlob = new Blob([swCode], {type:‘text/javascript’});
-const swUrl = URL.createObjectURL(swBlob);
-navigator.serviceWorker.register(swUrl).catch(()=>{});
-}
-
-// Show install banner on iOS Safari if not already installed
-const isIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
-const isStandalone = window.navigator.standalone === true;
-const dismissed = localStorage.getItem(‘mc_install_dismissed’);
-if(isIOS && !isStandalone && !dismissed){
-setTimeout(()=>{
-document.getElementById(‘installBanner’).style.display = ‘block’;
-}, 2000);
-}
-
-// Dismiss permanently when X is clicked
-document.getElementById(‘installBanner’)?.querySelector(‘button’)?.addEventListener(‘click’, ()=>{
-localStorage.setItem(‘mc_install_dismissed’,‘1’);
-});
-})();
 
 </script>
 </body>
