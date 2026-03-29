@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'">
   <noscript><link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"></noscript>
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap');
 :root {
   --bg:      #f5f4f0;
   --bg2:     #eceae4;
@@ -364,7 +365,7 @@ margin: 0 !important;
 <body>
 <div class="app">
 
-  <div class="overlay" id="overlay" onclick="closeDrawer()"></div>
+  <div class="overlay" id="overlay"></div>
 
   <!-- ══ SIDEBAR / DRAWER ══ -->
 
@@ -374,19 +375,19 @@ margin: 0 !important;
       <p>controle de cartão de crédito</p>
     </div>
     <nav class="sidebar-nav">
-      <button class="nav-item active" id="ni-dashboard" onclick="goPage('dashboard')">
+      <button class="nav-item active" id="ni-dashboard" data-page="ni-dashboard">
         <span class="ni-icon">📊</span> Dashboard
       </button>
-      <button class="nav-item" id="ni-lancamentos" onclick="goPage('lancamentos')">
+      <button class="nav-item" id="ni-lancamentos" data-page="ni-lancamentos">
         <span class="ni-icon">➕</span> Lançamentos
       </button>
-      <button class="nav-item" id="ni-debitos" onclick="goPage('debitos')">
+      <button class="nav-item" id="ni-debitos" data-page="ni-debitos">
         <span class="ni-icon">💰</span> Débitos
       </button>
-      <button class="nav-item" id="ni-cartoes" onclick="goPage('cartoes')">
+      <button class="nav-item" id="ni-cartoes" data-page="ni-cartoes">
         <span class="ni-icon">💳</span> Cartões
       </button>
-      <button class="nav-item" id="ni-pessoas" onclick="goPage('pessoas')">
+      <button class="nav-item" id="ni-pessoas" data-page="ni-pessoas">
         <span class="ni-icon">👤</span> Pessoas
       </button>
     </nav>
@@ -394,9 +395,9 @@ margin: 0 !important;
       <div class="month-widget">
         <div class="month-widget-label">Mês visualizado</div>
         <div class="month-widget-controls">
-          <button class="month-btn" onclick="changeMonth(-1)">‹</button>
+          <button class="month-btn" data-month="-1">‹</button>
           <div class="month-label" id="monthLabel">—</div>
-          <button class="month-btn" onclick="changeMonth(1)">›</button>
+          <button class="month-btn" data-month="1">›</button>
         </div>
       </div>
     </div>
@@ -411,10 +412,10 @@ margin: 0 !important;
 <header class="topbar">
   <div class="topbar-logo"><span style="filter:sepia(1) saturate(5) hue-rotate(240deg) brightness(0.7)">💳</span> Mandoca <span>Card</span></div>
   <div class="topbar-right">
-    <button class="month-btn" onclick="changeMonth(-1)" style="width:30px;height:30px;">‹</button>
+    <button class="month-btn" data-month="-1" style="width:30px;height:30px;">‹</button>
     <div class="topbar-month" id="topbarMonth">—</div>
-    <button class="month-btn" onclick="changeMonth(1)" style="width:30px;height:30px;">›</button>
-    <button class="hamburger" onclick="openDrawer()">☰</button>
+    <button class="month-btn" data-month="1" style="width:30px;height:30px;">›</button>
+    <button class="hamburger" id="btnHamburger">☰</button>
   </div>
 </header>
 
@@ -607,20 +608,24 @@ const SB_URL = 'https://lyyxxtqkpdhlrrssbyiw.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imx5eXh4dHFrcGRobHJyc3NieWl3Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQ3NDM4NDEsImV4cCI6MjA5MDMxOTg0MX0.iq_BkM-JKRrL1bpb6ItFYceYxwPBHQlhw6m3VG47ao4';
 
 async function sbFetch(path, method='GET', body=null){
-  const opts = {
-    method,
-    headers: {
-      'apikey': SB_KEY,
-      'Authorization': 'Bearer ' + SB_KEY,
-      'Content-Type': 'application/json',
-      'Prefer': method==='POST' ? 'return=representation' : ''
-    }
+  const headers = {
+    'apikey': SB_KEY,
+    'Authorization': 'Bearer ' + SB_KEY,
+    'Content-Type': 'application/json',
+    'Accept': 'application/json'
   };
+  if(method==='POST') headers['Prefer'] = 'return=representation';
+  if(method==='DELETE') headers['Prefer'] = 'return=minimal';
+  const opts = { method, headers, mode:'cors' };
   if(body) opts.body = JSON.stringify(body);
   const res = await fetch(SB_URL + '/rest/v1/' + path, opts);
-  if(!res.ok){ const err=await res.text(); console.error('SB error',err); return null; }
+  if(!res.ok){
+    const err = await res.text();
+    console.error('SB error', res.status, err);
+    throw new Error('SB '+res.status+': '+err);
+  }
   const txt = await res.text();
-  return txt ? JSON.parse(txt) : null;
+  return txt ? JSON.parse(txt) : [];
 }
 
 // ── STATE ─────────────────────────────────────────────
@@ -1299,6 +1304,22 @@ function render(){renderDashboard();renderLancamentos();renderDebitos();renderCa
 
 // ── INIT ──────────────────────────────────────────────
 function init(){
+  // Attach drawer events safely
+  const btnH = document.getElementById('btnHamburger');
+  const ovl  = document.getElementById('overlay');
+  if(btnH) btnH.addEventListener('click', openDrawer);
+  if(ovl)  ovl.addEventListener('click', closeDrawer);
+
+  // Attach nav items by id
+  ['dashboard','lancamentos','debitos','cartoes','pessoas'].forEach(id=>{
+    const el = document.getElementById('ni-'+id);
+    if(el) el.addEventListener('click', ()=>goPage(id));
+  });
+  // Also support month nav buttons
+  document.querySelectorAll('[data-month]').forEach(btn=>{
+    btn.addEventListener('click', ()=>changeMonth(parseInt(btn.dataset.month)));
+  });
+
   loadLocal();
   render();
   loadFromDB().then(()=>{
