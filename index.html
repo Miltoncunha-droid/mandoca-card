@@ -111,15 +111,16 @@ display:flex;align-items:center;justify-content:center;transition:all .15s;flex-
 .topbar{
 display:flex;
 position:sticky;top:0;z-index:150;
-padding-top:env(safe-area-inset-top);
 background:rgba(255,255,255,.96);backdrop-filter:blur(16px);
 border-bottom:1px solid var(–border);
-padding:0 20px;height:56px;
+padding:0 20px;
+padding-top:env(safe-area-inset-top);
+min-height:56px;
 align-items:center;justify-content:space-between;
 box-shadow:var(–shadow);
 }
 .topbar-logo{font-family:‘Playfair Display’,Georgia,‘Times New Roman’,serif;font-weight:900;font-size:1.05rem;color:var(–nubank);letter-spacing:-.2px;}
-.topbar-logo span{color:var(–text);}
+.topbar-logo span{color:var(–text) !important;}
 .topbar-right{display:flex;align-items:center;gap:10px;}
 .topbar-month{font-size:.72rem;font-weight:700;color:var(–muted2);background:var(–bg2);border-radius:6px;padding:4px 10px;}
 .hamburger{
@@ -707,17 +708,18 @@ async function loadFromDB(){
 
 function showLoading(on){
   let el=document.getElementById('loadingOverlay');
-  if(!el){
+  if(on && !el){
     el=document.createElement('div');
     el.id='loadingOverlay';
-    el.style.cssText='position:fixed;inset:0;background:rgba(245,244,240,0.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;font-family:Plus Jakarta Sans,sans-serif;';
-    el.innerHTML='<div style="font-size:2.5rem;margin-bottom:16px;animation:spin 1s linear infinite">💳</div><div style="font-size:.9rem;color:#6b6460;font-weight:600">Carregando dados...</div>';
+    // Non-blocking: small indicator at top instead of full overlay
+    el.style.cssText='position:fixed;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,#820ad1,#d4630a);z-index:9999;animation:loadbar 1.2s ease-in-out infinite;';
     const style=document.createElement('style');
-    style.textContent='@keyframes spin{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}'
+    style.textContent='@keyframes loadbar{0%{transform:translateX(-100%)}100%{transform:translateX(100%)}}'
     document.head.appendChild(style);
     document.body.appendChild(el);
+  } else if(!on && el){
+    el.remove();
   }
-  el.style.display=on?'flex':'none';
 }
 
 // ── SUPABASE SAVE HELPERS ─────────────────────────────
@@ -1296,18 +1298,28 @@ function renderPessoas(){
 function render(){renderDashboard();renderLancamentos();renderDebitos();renderCartoes();renderPessoas();}
 
 // ── INIT ──────────────────────────────────────────────
-loadLocal(); // show something immediately
-render();
-loadFromDB().then(()=>{
+function init(){
+  loadLocal();
   render();
-  if(cards.length===0 && persons.length<=2){
-    goPage('pessoas');
-    setTimeout(()=>toast('👋 Cadastre as pessoas e depois os cartões!'),400);
-  } else if(cards.length===0){
-    goPage('cartoes');
-    setTimeout(()=>toast('👋 Comece cadastrando seus cartões!'),400);
-  }
-});
+  loadFromDB().then(()=>{
+    render();
+    if(cards.length===0 && persons.length<=2){
+      goPage('pessoas');
+      setTimeout(()=>toast('👋 Cadastre as pessoas e depois os cartões!'),400);
+    } else if(cards.length===0){
+      goPage('cartoes');
+      setTimeout(()=>toast('👋 Comece cadastrando seus cartões!'),400);
+    }
+  }).catch(()=>{
+    render(); // fallback: just show local data
+  });
+}
+
+if(document.readyState==='loading'){
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
 
 function printExtrato(personName){
   const p = persons.find(x=>x.name===personName);
