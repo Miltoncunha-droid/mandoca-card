@@ -600,6 +600,27 @@ hr.div{border:none;border-top:1px solid var(--border);margin:16px 0;}
 
 <div class="toast" id="toast"></div>
 <script>
+// ══ DEBUG — DEVE SER A PRIMEIRA COISA A RODAR ══
+window.__dbgLines = [];
+function dbg(msg, color){
+  color = color||'#7cfc6e';
+  var t = new Date().toLocaleTimeString('pt-BR');
+  var txt = '['+t+'] '+String(msg);
+  window.__dbgLines.push({txt:txt,color:color});
+  var el = document.getElementById('debugLog');
+  if(el){ var d=document.createElement('div');d.style.color=color;d.style.marginBottom='2px';d.textContent=txt;el.appendChild(d);el.scrollTop=el.scrollHeight; }
+  console.log(txt);
+}
+window.onerror = function(msg,src,line,col,err){
+  dbg('❌ ERROR: '+msg+' | '+src+':'+line, '#ff6b6b');
+  var p=document.getElementById('debugPanel'); if(p) p.style.display='block';
+  return false;
+};
+window.addEventListener('unhandledrejection',function(e){
+  dbg('❌ PROMISE: '+(e.reason?e.reason.toString():String(e)), '#ff9f43');
+  var p=document.getElementById('debugPanel'); if(p) p.style.display='block';
+});
+dbg('✅ Script top reached');
 
 // ── SUPABASE CONFIG ──────────────────────────────────
 const SB_URL = ‘https://lyyxxtqkpdhlrrssbyiw.supabase.co’;
@@ -753,7 +774,7 @@ clearTimeout(t._t);t._t=setTimeout(()=>t.classList.remove(‘show’),2800);
 
 // drawer
 function openDrawer(){
-dbg(‘openDrawer called’);
+dbg(‘✅ openDrawer called’);
 document.getElementById(‘sidebar’).classList.add(‘open’);
 document.getElementById(‘overlay’).classList.add(‘open’);
 document.body.style.overflow=‘hidden’;
@@ -1254,7 +1275,7 @@ function render(){renderDashboard();renderLancamentos();renderDebitos();renderCa
 
 // ── INIT ──────────────────────────────────────────────
 function init(){
-dbg(‘init() started’);
+dbg(‘✅ init() running’);
 // ── Drawer ──
 var btnH = document.getElementById(‘btnHamburger’);
 dbg(’btnHamburger found: ’+(btnH?‘YES’:‘NO’));
@@ -1293,7 +1314,8 @@ render();
 });
 }
 
-document.addEventListener(‘DOMContentLoaded’, function(){ init(); });
+dbg(‘✅ DOMContentLoaded listener registered’);
+document.addEventListener(‘DOMContentLoaded’, function(){ dbg(‘✅ DOM ready, calling init’); init(); });
 
 function printExtrato(personName){
 const p = persons.find(x=>x.name===personName);
